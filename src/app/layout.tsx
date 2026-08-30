@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+// next/font/google downloads the font at build time, which breaks offline
+// sandboxed builds (nix). font-sans tailwind stack is a drop-in substitute.
 import './globals.css';
 import Script from 'next/script';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = { className: 'font-sans' };
 
 export const metadata: Metadata = {
   title:
