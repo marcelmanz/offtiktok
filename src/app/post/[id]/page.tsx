@@ -134,7 +134,7 @@ const PostPage = async ({ params }: { params: { id: string } }) => {
       </a>
       <div
         className={clsx(
-          'container md:rounded-2xl md:m-auto h-full relative overflow-hidden flex',
+          'container md:m-auto h-full relative overflow-hidden flex',
           styles.Player
         )}
       >

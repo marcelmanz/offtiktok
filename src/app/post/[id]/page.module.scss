@@ -12,7 +12,9 @@
     }
 
     @media (min-width: 768px) {
-        max-width: 550px;
-        aspect-ratio: 6/9;
+        height: 100dvh !important;
+        width: calc(100dvh * 9 / 16) !important;
+        max-width: 100vw !important;
+        aspect-ratio: 9/16;
     }
 }

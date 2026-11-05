@@ -206,7 +206,7 @@ export const VideoPlayer: FC<Props> = ({
         onTimeUpdate={updateVideoProgress}
         className={clsx(
           'relative min-h-full max-h-full cursor-pointer z-10 w-full bg-slate-900',
-          isPanoramic ? 'object-contain' : 'object-cover'
+          'object-contain'
         )}
         playsInline
         poster={thumbnail}

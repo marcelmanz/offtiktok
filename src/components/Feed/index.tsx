@@ -93,31 +93,25 @@ export const Feed: FC<Props> = ({ rootPost, token }) => {
     [sessionToken, fetching, nextLoaded]
   );
 
-  const startedScrolling = useRef(false);
-  const scrollingTimer = useRef<NodeJS.Timeout | null>(null);
+  const requestedNextFor = useRef(new Set<string>());
 
   const onScroll = useCallback(async () => {
-    if (startedScrolling.current) {
-      if (scrollingTimer.current) {
-        clearTimeout(scrollingTimer.current);
-      }
-      scrollingTimer.current = setTimeout(() => {
-        startedScrolling.current = false;
-        scrollingTimer.current = null;
-      }, 250);
+    if (!feedEl) {
       return;
     }
-    if (feedEl) {
-      startedScrolling.current = true;
-      const feedHeight = feedEl.getBoundingClientRect().height;
-      const currInd = Math.ceil(feedEl.scrollTop / feedHeight);
-      const lastPost = posts[posts.length - 1];
+    const feedHeight = feedEl.getBoundingClientRect().height;
+    const visibleIndex = Math.round(feedEl.scrollTop / feedHeight);
+    const lastPost = posts[posts.length - 1];
 
-      if (currInd === posts.length - 1 && lastPost.originalURL) {
-        setFetching(true);
-        await getNextPost(lastPost.originalURL);
-        setFetching(false);
-      }
+    if (
+      visibleIndex >= posts.length - 2 &&
+      lastPost.originalURL &&
+      !requestedNextFor.current.has(lastPost.originalURL)
+    ) {
+      requestedNextFor.current.add(lastPost.originalURL);
+      setFetching(true);
+      await getNextPost(lastPost.originalURL);
+      setFetching(false);
     }
   }, [feedEl, getNextPost, posts]);
 
